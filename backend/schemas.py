@@ -29,3 +29,4 @@ class FlightOut(BaseModel):
     available_seats: int
     class Config:
         orm_mode = True
+
