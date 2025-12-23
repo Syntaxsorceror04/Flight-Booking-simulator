@@ -161,3 +161,17 @@ Every `GET /flights` and `GET /flights/search` response now includes:
 | POST | `/utils/generate` | Generate random flights |
 | POST | `/utils/simulate-demand` | Run one demand simulation tick |
 
+## Booking Workflow (Milestone 3)
+This module implements a complete booking lifecycle:
+
+1. Seat reservation with transaction safety
+2. Passenger information capture
+3. Simulated payment (success/failure)
+4. Automatic PNR generation for confirmed bookings
+5. Booking cancellation with seat restoration
+6. Booking history retrieval by passenger email
+
+Concurrency safety is ensured using database transactions to prevent overbooking.
+
+
+
