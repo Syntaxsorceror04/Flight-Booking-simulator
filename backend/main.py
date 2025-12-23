@@ -1,3 +1,4 @@
+from backend.routers import bookings
 from fastapi import FastAPI
 from backend.database import Base, engine
 from backend.routers import flights as flights_router
@@ -11,6 +12,12 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Flight Booking Simulator - Milestone 2 (Dynamic Pricing)")
 
 app.include_router(flights_router.router)
+app.include_router(
+    bookings.router,
+    prefix="/bookings",
+    tags=["Bookings"]
+)
+
 
 # startup/shutdown handlers for background simulator
 background_task = None
@@ -35,3 +42,4 @@ async def shutdown_event():
 @app.get("/")
 def root():
     return {"service": "Flight Booking Simulator - Milestone 2", "status": "ok"}
+
