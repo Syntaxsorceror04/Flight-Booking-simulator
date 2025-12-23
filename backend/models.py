@@ -41,3 +41,29 @@ class FareHistory(Base):
     price = Column(Integer, nullable=False)
 
     flight = relationship("Flight", backref="fare_history_entries")
+class Booking(Base):
+    __tablename__ = "bookings"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    # which flight is booked
+    flight_id = Column(Integer, ForeignKey("flights.id"), nullable=False)
+
+    # passenger details
+    passenger_name = Column(String(100), nullable=True)
+    passenger_email = Column(String(100), nullable=True)
+
+    # booking details
+    seats_booked = Column(Integer, nullable=False)
+    price_paid = Column(Integer, nullable=False)
+
+    # booking status: PENDING / CONFIRMED / CANCELLED
+    status = Column(String(20), nullable=False, default="PENDING")
+
+    # Passenger Name Record (generated after payment)
+    pnr = Column(String(20), nullable=True)
+
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    # relationship to Flight
+    flight = relationship("Flight")
