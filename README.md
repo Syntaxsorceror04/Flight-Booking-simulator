@@ -1,177 +1,193 @@
-This backend project is built using FastAPI, SQLite, and SQLAlchemy.
-It simulates a flight booking system with dynamic pricing, airline data, airport data, and a seeded database of sample flights.
+Flight Booking Simulator – Backend
 
-🚀 Features Implemented (Milestone 1)
-✔ Core Functionalities
+**Infosys Springboard Wingspire Internship**
+**Python Backend | FastAPI | SQLite | SQLAlchemy**
 
-FastAPI backend with clean modular structure
+This project implements a **flight booking backend system** with **dynamic pricing, demand simulation, and a complete booking workflow**.
+It is built incrementally across internship milestones, following real-world backend engineering practices.
 
-SQLite database with SQLAlchemy ORM
+---
 
-Models for:
+## 🧱 Tech Stack
 
-Airlines
+* **FastAPI** – REST API framework
+* **SQLite** – Lightweight relational database
+* **SQLAlchemy ORM** – Database modeling & transactions
+* **Pydantic** – Request/response validation
+* **Uvicorn** – ASGI server
 
-Airports
+---
 
-Flights
+## 🚀 Features by Milestone
 
-Dynamic flight pricing (changes based on demand)
+---
 
-Flight search based on:
+## ✅ Milestone 1 – Core Flight Management
 
-Origin
+### Implemented Features
 
-Destination
+* Modular FastAPI backend structure
+* SQLite database with SQLAlchemy ORM
+* Database models for:
 
-Date
+  * Airlines
+  * Airports
+  * Flights
+* Flight search with filters:
 
-Sorting options (price, duration, departure time)
+  * Origin
+  * Destination
+  * Date
+* Sorting options:
 
-Sample seed data generation
+  * Price
+  * Duration
+  * Departure time
+* Database seeding with sample airlines, airports, and flights
+* Automatic random flight generation API
 
-Automatic sample flight generation API
+### Core APIs
 
-✔ API Endpoints
-Method	Endpoint	Description
-GET	/	Health check
-GET	/flights	Get all flights
-GET	/flights/search	Search flights
-GET	/airlines	Get all airlines
-GET	/airports	Get all airports
-POST	/utils/generate	Generate random flights
-<br>
-📁 Project Structure
+| Method | Endpoint          | Description             |
+| ------ | ----------------- | ----------------------- |
+| GET    | `/`               | Health check            |
+| GET    | `/flights`        | Get all flights         |
+| GET    | `/flights/search` | Search flights          |
+| GET    | `/airlines`       | Get all airlines        |
+| GET    | `/airports`       | Get all airports        |
+| POST   | `/utils/generate` | Generate random flights |
+
+---
+
+## 🔥 Milestone 2 – Dynamic Pricing & Demand Simulation
+
+### New Features Added
+
+#### Dynamic Pricing Engine
+
+Flight prices update dynamically based on:
+
+* Remaining seats
+* Time left to departure
+* Demand pressure
+
+#### Fare History Tracking
+
+* Each price update is recorded in `FareHistory`
+* Historical prices can be queried per flight
+
+#### Background Demand Simulator
+
+* Runs automatically after server startup
+* Simulates:
+
+  * Random seat bookings & cancellations
+  * Price recalculations
+  * Fare history insertion
+
+#### Manual Demand Simulation
+
+* Trigger one simulation tick manually for demo/testing
+
+### Additional APIs
+
+| Method | Endpoint                         | Description                   |
+| ------ | -------------------------------- | ----------------------------- |
+| GET    | `/flights/{id}/fare-history`     | View historical price changes |
+| POST   | `/utils/simulate-demand?count=5` | Run demand simulation         |
+
+All flight responses now include:
+
+* `current_price`
+* `price_breakdown` (time, demand, seat pressure multipliers)
+
+---
+
+## 🧾 Milestone 3 – Booking Workflow & Transaction Management
+
+### Booking Lifecycle Implemented
+
+* Seat reservation with **transaction safety**
+* Passenger information capture
+* Simulated payment processing (success/failure)
+* Automatic **PNR generation** for confirmed bookings
+* Booking cancellation with seat restoration
+* Booking history retrieval by passenger email
+
+### Key Backend Concepts Used
+
+* Database transactions to prevent overbooking
+* Multi-step booking workflow
+* Concurrency-safe seat updates
+* Persistent booking storage
+
+---
+
+## 📁 Project Structure
+
+```
 flight-booking-backend/
-│── backend/
+│
+├── backend/
 │   ├── main.py
-│   ├── models.py
 │   ├── database.py
+│   ├── models.py
 │   ├── schemas.py
 │   ├── seed_data.py
 │   ├── routers/
-│   │   └── flights.py
+│   │   ├── flights.py
+│   │   └── bookings.py
 │   └── utils/
-│       └── external_feed.py
+│       ├── external_feed.py
+│       └── pnr.py
 │
 ├── requirements.txt
 ├── README.md
-└── venv/  (ignored)
+└── venv/   (ignored)
+```
 
-🛠️ How to Run Locally
-1. Clone the Repository
+---
+
+## 🛠️ How to Run Locally
+
+### 1️⃣ Clone Repository
+
+```bash
 git clone https://github.com/<your-username>/flight-booking-backend.git
 cd flight-booking-backend
+```
 
-2. Create & Activate Virtual Environment
+### 2️⃣ Create & Activate Virtual Environment (Windows)
 
-Windows:
-
+```powershell
 python -m venv venv
 .\venv\Scripts\Activate.ps1
+```
 
-3. Install Dependencies
+### 3️⃣ Install Dependencies
+
+```bash
 pip install -r requirements.txt
+```
 
-4. Seed the Database
+### 4️⃣ Seed Database
+
+```bash
 python -m backend.seed_data
+```
 
-5. Start the Server
-.\venv\Scripts\python.exe -m uvicorn backend.main:app --reload --port 8000
+### 5️⃣ Start Server
 
-📌 API Documentation
-
-Once the server is running, open:
-
-👉 Swagger UI:
-http://127.0.0.1:8000/docs
-
-👉 ReDoc:
-
-http://127.0.0.1:8000/redoc# Flight Booking Simulator – Backend  
-### Infosys Springboard Wingspire Internship — Milestone 2  
-
-This backend project is built using **FastAPI**, **SQLite**, and **SQLAlchemy**.  
-It simulates a flight booking system with **dynamic pricing**, **airline data**, **airport data**, **fare history tracking**, and **automatic demand simulation**.
-
-## 🚀 Features Implemented (Milestone 2)
-
-### ✔ Core Functionalities (from Milestone 1)
-- FastAPI backend with modular routing
-- SQLite database with SQLAlchemy ORM  
-- Models for:
-  - Airlines  
-  - Airports  
-  - Flights  
-- Flight search based on:
-  - Origin  
-  - Destination  
-  - Date  
-  - Sort by price or duration  
-- Database seeding with sample data  
-- Automatic sample flight generation API  
+```bash
+uvicorn backend.main:app --reload --port 8000
+```
 
 ---
 
-## 🔥 **New Features Added in Milestone 2**
-### ✔ **Dynamic Pricing Engine**
-- Real-time price calculation based on:
-  - Remaining seats  
-  - Hours left to departure  
-  - Demand factor  
+## 📌 API Documentation
 
-### ✔ **Fare History Tracking**
-- Every time the simulator updates seat availability,
-  the system:
-  - recalculates price  
-  - inserts a new **FareHistory** record  
+Once running, access:
 
-`GET /flights/{id}/fare-history`  
-returns time series price history.
-
-### ✔ **Background Demand Simulator**
-Runs automatically every few seconds and:
-- randomly books/cancels seats  
-- recalculates prices  
-- stores fare history  
-
-Works continuously in the background after server startup.
-
-### ✔ **Manual Demand Simulation**
-`POST /utils/simulate-demand?count=5`  
-Runs one simulation tick instantly (useful for demos).
-
-### ✔ **Current Price in All Flight Responses**
-Every `GET /flights` and `GET /flights/search` response now includes:
-- `current_price`  
-- `price_breakdown` (multipliers: time, demand, seat pressure)
-
----
-
-## ⚙️ API Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/` | Health check |
-| GET | `/flights` | Get all flights with dynamic pricing |
-| GET | `/flights/search` | Search flights by origin, destination, date |
-| GET | `/airlines` | Get all airlines |
-| GET | `/airports` | Get all airports |
-| GET | `/flights/{id}/fare-history` | View historical price changes |
-| POST | `/utils/generate` | Generate random flights |
-| POST | `/utils/simulate-demand` | Run one demand simulation tick |
-
-## Booking Workflow (Milestone 3)
-This module implements a complete booking lifecycle:
-
-1. Seat reservation with transaction safety
-2. Passenger information capture
-3. Simulated payment (success/failure)
-4. Automatic PNR generation for confirmed bookings
-5. Booking cancellation with seat restoration
-6. Booking history retrieval by passenger email
-
-Concurrency safety is ensured using database transactions to prevent overbooking.
-
-
+* **Swagger UI** → [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+* **ReDoc** → [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
 
