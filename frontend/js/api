@@ -1,0 +1,65 @@
+// js/api.js
+// Centralized API helper for the frontend. Uses fetch and returns JSON or throws.
+
+const API_BASE = 'http://127.0.0.1:8000';
+
+async function handleResponse(res) {
+  const contentType = res.headers.get('content-type') || '';
+  let data = null;
+  if (contentType.includes('application/json')) {
+    data = await res.json();
+  } else {
+    data = await res.text();
+  }
+  if (!res.ok) {
+    const err = new Error('API error');
+    err.status = res.status;
+    err.body = data;
+    throw err;
+  }
+  return data;
+}
+
+export async function searchFlights(origin, destination, date) {
+  const params = new URLSearchParams({
+    origin: origin,
+    destination: destination,
+    date: date
+  });
+  const url = `${API_BASE}/flights/search?${params.toString()}`;
+  const res = await fetch(url, { method: 'GET' });
+  return handleResponse(res);
+}
+
+export async function reserveSeats({ flight_id, passenger_name, passenger_email, seats_booked }) {
+  const url = `${API_BASE}/bookings/reserve`;
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ flight_id, passenger_name, passenger_email, seats_booked })
+  });
+  return handleResponse(res);
+}
+
+export async function makePayment(booking_id, paymentData = {}) {
+  const url = `${API_BASE}/bookings/${encodeURIComponent(booking_id)}/payment`;
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(paymentData)
+  });
+  return handleResponse(res);
+}
+
+export async function getReceipt(pnr) {
+  const url = `${API_BASE}/bookings/${encodeURIComponent(pnr)}`;
+  const res = await fetch(url, { method: 'GET' });
+  return handleResponse(res);
+}
+
+export async function getHistory(email) {
+  const params = new URLSearchParams({ email });
+  const url = `${API_BASE}/bookings/history?${params.toString()}`;
+  const res = await fetch(url, { method: 'GET' });
+  return handleResponse(res);
+}

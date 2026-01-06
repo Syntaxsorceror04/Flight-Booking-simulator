@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Booking History - Flight Booking Simulator</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="brand">
+        <div class="logo">FB</div>
+        <div>
+          <div class="title">Booking History</div>
+          <div class="small-muted">View past bookings</div>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="index.html">Search</a>
+      </nav>
+    </header>
+
+    <section class="card">
+      <form id="historyForm" class="form-row" novalidate>
+        <input id="historyEmail" class="input" type="email" placeholder="Passenger email" required />
+        <button id="historyBtn" class="btn" type="submit">Fetch History</button>
+      </form>
+
+      <div id="historyMessage" role="status" aria-live="polite"></div>
+      <div id="historyList" class="history-list"></div>
+    </section>
+  </div>
+
+  <script type="module" src="js/api.js"></script>
+  <script type="module" src="js/history.js"></script>
+</body>
+</html>
