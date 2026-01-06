@@ -191,3 +191,19 @@ Once running, access:
 * **Swagger UI** → [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 * **ReDoc** → [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
 
+Milestone 4
+This milestone focuses on building a complete user-facing frontend for the Flight Booking Simulator and integrating it with the backend API layer to deliver a cohesive end-to-end booking experience.
+
+The application allows users to:
+
+Search flights with dynamic pricing
+
+Complete a multi-step booking flow
+
+Generate booking confirmations (PNR)
+
+View receipts and booking history
+
+The frontend is designed to mirror real-world airline booking systems while remaining lightweight and easy to deploy.
+
+
